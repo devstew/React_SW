@@ -1,37 +1,39 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 import './PersonDetails.css';
 import SwapiService from "../../services/swapi-service";
 import ErrorIndicator from "../error-indicator/ErrorIndicator";
+import ErrorButton from '../error-button/ErrorButton';
 import Spinner from "../spinner/Spinner";
 
 export default class PersonDetails extends Component {
-    swapiService  = new SwapiService();
+    swapiService = new SwapiService();
 
     state = {
         person: null,
-        selectedPerson:null,
-        loading:true
+        selectedPerson: null,
+        loading: true
     };
 
-    componentDidMount(){
+    componentDidMount() {
         this.updatePerson();
     }
 
-    componentDidUpdate(prevProps){
-        if(this.props.personId !== prevProps.personId){
+    componentDidUpdate(prevProps) {
+        if (this.props.personId !== prevProps.personId) {
             this.updatePerson();
         }
     }
 
     updatePerson() {
-        const { personId } = this.props;
-        if(!personId){
+        const {personId} = this.props;
+        if (!personId) {
             return;
         }
-        this.swapiService.getPerson(personId)
+        this.swapiService
+            .getPerson(personId)
             .then((person) => {
-                this.setState({ person })
+                this.setState({person})
             })
     }
 
@@ -59,7 +61,7 @@ export default class PersonDetails extends Component {
         // const errorMessage = error ? <ErrorIndicator/> : null;
         // const spinner = loading ? <Spinner/> : null;
 
-        if(!this.state.person){
+        if (!this.state.person) {
             return <span> Select a person from a list</span>
         }
 
@@ -86,6 +88,7 @@ export default class PersonDetails extends Component {
                             <span>{eyeColor}</span>
                         </li>
                     </ul>
+                    <ErrorButton/>
                 </div>
             </div>
         )
